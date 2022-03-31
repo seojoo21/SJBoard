@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+<bean id="sjBoardUserDetailsService" class="com.seojoo21.security.SjBoardUserDetailsService"></bean>
+<!-- <bean id="sjBoardLoginSuccess" class="com.seojoo21.security.SjBoardLoginSuccessHandler"></bean> -->
+<bean id="sjBoardAccessDenied" class="com.seojoo21.security.SjBoardAccessDeniedHandler"></bean>
+
+<security:http>
+	<security:intercept-url pattern="/sjboard/list" access="permitAll" />
+	<security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" /> 
+	<security:form-login login-page="/member/login" />
+	<security:logout logout-url="/member/logout" invalidate-session="true" delete-cookies="remember-me, JSESSIONID" logout-success-url="/"/>
+	<security:access-denied-handler ref="sjBoardAccessDenied" />
+	<security:remember-me data-source-ref="dataSource" token-validity-seconds="604800" /> <!-- 604800 = 60*60*24*7 : 7일 -->
+</security:http>
+
+<security:authentication-manager erase-credentials="false">
+	<security:authentication-provider user-service-ref="sjBoardUserDetailsService">
+		<security:password-encoder ref="bcryptPasswordEncoder" /> 
+	</security:authentication-provider>
+</security:authentication-manager>
+
+</beans>

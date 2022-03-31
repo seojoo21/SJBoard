@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.seojoo21.mapper.ReplyMapper">
+
+	<!-- 1. 댓글을 등록한다. (Create) -->
+	<insert id="create">
+		insert into tbl_reply (rno, bno, reply, replyer, userid)
+		values (seq_reply.nextval, #{bno}, #{reply}, #{replyer}, #{userid})
+	</insert>
+	
+	<!-- 2. 댓글을 가져온다. (Read) -->
+	<select id="read" resultType="com.seojoo21.domain.ReplyVO">
+		select * from tbl_reply where rno = #{rno}
+	</select>
+	
+	<!-- 3. 댓글을 수정한다. (Update) -->
+	<update id="update">
+		update tbl_reply
+		set reply = #{reply},
+		updateDate = sysdate,
+		userid = #{userid}
+		where rno = #{rno}
+	</update>
+	
+	<!-- 4. 댓글을 삭제한다. (Delete)  -->
+	<delete id="delete">
+		delete from tbl_reply where rno = #{rno}
+	</delete>
+	
+	<!-- 5. 페이징 처리가 된 특정 게시물의 댓글 목록을 가져온다. -->
+	<select id="getListWithPaging" resultType="com.seojoo21.domain.ReplyVO">
+		<![CDATA[
+		select rno, bno, reply, replyer, replydate, updatedate 
+		from (
+		    select /*+index(tbl_reply idx_reply */
+		        rownum as rn, bno, rno, reply, replyer, replydate, updatedate
+		    from tbl_reply
+		    where bno = #{bno}
+		        and rno > 0
+		        and rownum <= #{cri.pageNum} * #{cri.amount}
+		)
+		where rn > (#{cri.pageNum}-1) * #{cri.amount}
+		]]>
+	</select>
+	
+	<!-- 6. 게시물별 전체 댓글의 개수를 구한다. -->
+	<select id="getReplyCountByBno" resultType="int">
+		<![CDATA[
+			select count(rno) from tbl_reply where bno = #{bno}
+		]]>
+	</select>
+</mapper>

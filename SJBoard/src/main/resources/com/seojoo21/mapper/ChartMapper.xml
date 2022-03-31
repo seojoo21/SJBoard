@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seojoo21.mapper.ChartMapper">
+
+<!-- 기간별 게시글 수 확인  -->
+<select id="getBoardNoByPeriod" resultType="map">
+<![CDATA[
+
+select to_char(b.dt, 'yyyy-mm-dd') as regdate, nvl(sum(a.cnt), 0) as cnt
+
+from 
+
+(select to_char(regdate, 'yyyy-mm-dd') as regdate, count(*) as cnt 
+from tbl_board
+where regdate between to_date(#{fromDate },'yyyy-mm-dd') and to_date(#{toDate }, 'yyyy-mm-dd')
+group by regdate ) a,
+
+(select to_date(#{fromDate }, 'yyyy-mm-dd') + level -1 as dt 
+from dual 
+connect by level <= (to_date(#{toDate }, 'yyyy-mm-dd') - to_date(#{fromDate }, 'yyyy-mm-dd') + 1 )
+) b
+
+where b.dt = a.regdate(+)
+group by b.dt
+order by b.dt 
+
+]]>
+</select>
+	
+<!-- 기간별 댓글 수 확인 -->
+<select id="getReplyNoByPeriod" resultType="map">
+<![CDATA[
+
+select to_char(b.dt, 'yyyy-mm-dd') as regdate, nvl(sum(a.cnt), 0) as cnt
+
+from 
+
+(select to_char(replydate, 'yyyy-mm-dd') as regdate, count(*) as cnt 
+from tbl_reply
+where replydate between to_date(#{fromDate },'yyyy-mm-dd') and to_date(#{toDate }, 'yyyy-mm-dd')
+group by replydate ) a,
+
+(select to_date(#{fromDate }, 'yyyy-mm-dd') + level -1 as dt 
+from dual 
+connect by level <= (to_date(#{toDate }, 'yyyy-mm-dd') - to_date(#{fromDate }, 'yyyy-mm-dd') + 1 )
+) b
+
+where b.dt = a.regdate(+)
+group by b.dt
+order by b.dt 
+
+]]>
+</select>
+	
+<!-- 기간별 가입 회원 수 확인  -->
+<select id="getMemberNoByPeriod" resultType="map">
+<![CDATA[
+
+select to_char(b.dt, 'yyyy-mm-dd') as regdate, nvl(sum(a.cnt), 0) as cnt
+
+from 
+
+(select to_char(regdate, 'yyyy-mm-dd') as regdate, count(*) as cnt 
+from tbl_member
+where regdate between to_date(#{fromDate },'yyyy-mm-dd') and to_date(#{toDate }, 'yyyy-mm-dd')
+group by regdate ) a,
+
+(select to_date(#{fromDate }, 'yyyy-mm-dd') + level -1 as dt 
+from dual 
+connect by level <= (to_date(#{toDate }, 'yyyy-mm-dd') - to_date(#{fromDate }, 'yyyy-mm-dd') + 1 )
+) b
+
+where b.dt = a.regdate(+)
+group by b.dt
+order by b.dt 
+
+]]>
+</select>
+
+
+
+</mapper>

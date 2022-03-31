@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seojoo21.mapper.AdminMapper">
+
+<!-- 한번에 tbl_member와 tbl_member_auth를 조인해서 처리할 수 있도록 ResultMap 기능 이용  -->
+<resultMap type="com.seojoo21.domain.MemberVO" id="memberMap">
+	<id property="userid" column="userid" />
+	<result property="userid" column="userid"/>
+	<result property="userpw" column="userpw"/>
+	<result property="userName" column="username"/>
+	<result property="regdate" column="regdate"/>
+	<result property="updateDate" column="updatedate"/>
+	<result property="email" column="email"/>
+	<collection property="authList" resultMap="authMap"></collection>
+</resultMap>
+
+<resultMap type="com.seojoo21.domain.AuthVO" id="authMap">
+	<result property="userid" column="userid"/>
+	<result property="auth" column="auth" />
+</resultMap>
+
+
+<resultMap type="com.seojoo21.domain.DateDTO" id="weekMap">
+	<id property="monday" column="월요일" />
+	<result property="monday" column="월요일"/>
+	<result property="tuesday" column="화요일"/>
+	<result property="wednesday" column="수요일"/>
+	<result property="thursday" column="목요일"/>
+	<result property="friday" column="금요일"/>
+	<result property="saturday" column="토요일"/>
+	<result property="sunday" column="일요일"/>
+</resultMap>
+
+
+<!-- 가입된 회원 전체 정보를 확인 -->
+<select id="getMemberList" resultMap="memberMap">
+select 
+	mem.userid, mem.userpw, mem.username, mem.enabled, mem.regdate, mem.updatedate, mem.email, auth.auth
+from
+	tbl_member mem left outer join tbl_member_auth auth on mem.userid = auth.userid
+</select>
+
+<!-- 가입된 회원 전체 정보 확인 (페이징 처리) -->
+<select id="getMemberListWithPaging" resultMap="memberMap">
+<![CDATA[
+select 
+	userid, userpw, username, enabled, regdate, updatedate, email, auth
+from
+	(
+	select 
+		rownum as rn, mem.userid, mem.userpw, mem.username, mem.enabled, mem.regdate, mem.updatedate, mem.email, auth.auth
+	from
+        tbl_member mem left outer join tbl_member_auth auth on mem.userid = auth.userid
+	where rownum <= #{pageNum} * #{amount}
+	)
+where rn > (#{pageNum}-1) * #{amount}
+]]>
+</select>
+
+<!-- 전체 회원수 확인  -->
+<select id="getTotalMemberNo" resultType="Long">
+select count(*) from tbl_member
+</select>
+
+<!-- 전체 게시글 수 확인  -->
+<select id="getTotalBnoNo" resultType="Long">
+select count(*) from tbl_board
+</select>
+	
+<!-- 전체 댓글 수 확인 --> 
+<select id="getTotalRnoNo" resultType="Long">
+select count(*) from tbl_reply
+</select>
+
+<!-- 회원 등급 변경 -->
+<update id="updateAuth">
+update tbl_member_auth
+set auth = #{auth }
+where userid = #{userid }
+</update>
+
+<!-- 회원 강제 탈퇴 처리 -->
+<delete id="deleteMemberByAdmin">
+delete from tbl_member where userid = #{userid}
+</delete>	
+
+<!-- 주간 게시글 수 확인 -->
+<select id="getWeeklyBnoNo" resultMap="weekMap">
+select
+    (select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+#{num }, 'yyyymmdd'))
+    as "월요일"
+    , (select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+1), 'yyyymmdd'))
+    as "화요일"
+   , (select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+2), 'yyyymmdd'))
+    as "수요일"
+   ,(select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+3), 'yyyymmdd'))
+    as "목요일"
+   ,(select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+4), 'yyyymmdd'))
+    as "금요일"
+    ,(select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+5), 'yyyymmdd'))
+    as "토요일"
+    ,(select count(*) 
+    from tbl_board 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+6), 'yyyymmdd'))
+    as "일요일"
+from dual
+</select>
+	
+<!-- 주간 댓글 수 확인  -->
+<select id="getWeeklyRnoNo" resultMap="weekMap">
+select
+    (select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+#{num }, 'yyyymmdd'))
+    as "월요일"
+    , (select count(*) 
+    from tbl_reply
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+1), 'yyyymmdd'))
+    as "화요일"
+   , (select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+2), 'yyyymmdd'))
+    as "수요일"
+   ,(select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+3), 'yyyymmdd'))
+    as "목요일"
+   ,(select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+4), 'yyyymmdd'))
+    as "금요일"
+    ,(select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+5), 'yyyymmdd'))
+    as "토요일"
+    ,(select count(*) 
+    from tbl_reply 
+    where to_char(replydate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+6), 'yyyymmdd'))
+    as "일요일"
+from dual
+</select>
+	
+<!-- 주간 신규 회원 수 확인  -->
+<select id="getWeeklyNewMemberNo" resultMap="weekMap">
+select
+    (select count(*) 
+    from tbl_member 
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+#{num }, 'yyyymmdd'))
+    as "월요일"
+    , (select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+1), 'yyyymmdd'))
+    as "화요일"
+   , (select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+2), 'yyyymmdd'))
+    as "수요일"
+   ,(select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+3), 'yyyymmdd'))
+    as "목요일"
+   ,(select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+4), 'yyyymmdd'))
+    as "금요일"
+    ,(select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+5), 'yyyymmdd'))
+    as "토요일"
+    ,(select count(*) 
+    from tbl_member
+    where to_char(regdate, 'yyyymmdd') = 
+        to_char(trunc(sysdate,'iw')+(#{num }+6), 'yyyymmdd'))
+    as "일요일"
+from dual
+</select>
+
+
+<!-- 기간별 게시글 수 확인  -->
+
+	
+<!-- 기간별 댓글 수 확인 -->
+
+	
+<!-- 기간별 가입 회원 수 확인  -->
+
+	
+<!-- 기간별 탈퇴 회원 수 확인  -->
+
+
+</mapper>

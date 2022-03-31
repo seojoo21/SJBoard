@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.seojoo21.mapper.LikeMapper">
+
+<!-- 게시글을 추천한다. -->
+<insert id="updateLike">
+	<selectKey keyProperty="lno" order="BEFORE" resultType="long" >
+	select seq_like.nextval from dual
+	</selectKey>
+	
+	insert into tbl_like(lno, likeno, bno, userid)
+	values (#{lno}, 1, #{bno}, #{userid})
+</insert>
+
+<!-- 게시글 추천을 취소한다. -->
+<delete id="deleteLike">
+	delete from tbl_like where bno = #{bno} and userid = #{userid}
+</delete>
+
+<!-- 게시글 추천 여부를 확인한다.  -->
+<select id="checkLike" resultType="com.seojoo21.domain.LikeVO">
+	select likeno, bno, userid from tbl_like where bno = #{bno} and userid = #{userid}
+</select>
+
+<!-- 게시글 추천수를 가져온다. -->
+<select id="getLikeNo" resultType="Long">
+	select count(*) from tbl_like where bno = #{bno} 
+</select>
+
+</mapper>

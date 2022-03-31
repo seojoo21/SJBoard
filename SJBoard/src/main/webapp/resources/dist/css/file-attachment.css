@@ -1,0 +1,49 @@
+<style>
+	.uploadResult {
+		width: 100%;
+		background-color: none;
+		
+	}
+	
+	.uploadResult ul {
+		display: flex;
+		flex-flow: row;
+		justify-content: center;
+		align-items: center;
+		background-color: white;
+		border: 1px solid #ccc;
+    	border-radius: 4px;
+	}
+	
+	.uploadResult ul li {
+		list-style: none;
+		padding: 10px;
+		float: left;
+	}
+	
+	.uploadResult ul li img {
+		width: 100px;
+	}
+	
+	.bigPictureWrapper {
+	  position: absolute;
+	  display: none;
+	  justify-content: center;
+	  align-items: center;
+	  top:0%;
+	  width:100%;
+	  height:100%;
+	  z-index: 100;
+	  background-color: rgba( 204, 204, 204, 0.5 );
+	}
+	
+	.bigPicture {
+	  position: relative;
+	  display:flex;
+	  justify-content: center;
+	  align-items: center;
+	  width:100%;
+	  height:100%;
+	
+	}
+</style>
