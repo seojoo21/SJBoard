@@ -7,12 +7,12 @@
 
 <bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
 <bean id="sjBoardUserDetailsService" class="com.seojoo21.security.SjBoardUserDetailsService"></bean>
-<!-- <bean id="sjBoardLoginSuccess" class="com.seojoo21.security.SjBoardLoginSuccessHandler"></bean> -->
 <bean id="sjBoardAccessDenied" class="com.seojoo21.security.SjBoardAccessDeniedHandler"></bean>
 
 <security:http>
 	<security:intercept-url pattern="/sjboard/list" access="permitAll" />
 	<security:intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" /> 
+	<security:intercept-url pattern="/chart/*" access="hasRole('ROLE_ADMIN')" /> 
 	<security:form-login login-page="/member/login" />
 	<security:logout logout-url="/member/logout" invalidate-session="true" delete-cookies="remember-me, JSESSIONID" logout-success-url="/"/>
 	<security:access-denied-handler ref="sjBoardAccessDenied" />

@@ -149,12 +149,6 @@ public class BoardController {
 			rttr.addFlashAttribute("result", "success");
 		}
 		
-		// 1. addAttribute를 사용하여 파라미터를 받아 리다이렉트를 처리. 
-//		rttr.addAttribute("pageNum", cri.getPageNum());
-//		rttr.addAttribute("amount", cri.getAmount());
-//		rttr.addAttribute("type", cri.getType());
-//		rttr.addAttribute("keyword", cri.getKeyword());
-		
 		// 2. UriComponentsBuilder로 생성된 URL을 이용하여 리다이렉트를 처리. 
 		return "redirect:/sjboard/list" + cri.getListLink();
 	}
@@ -174,11 +168,6 @@ public class BoardController {
 			deleteFiles(attachList);
 			rttr.addFlashAttribute("result","success");
 		}
-		// 1. addAttribute를 사용하여 파라미터를 받아 리다이렉트를 처리. 
-//		rttr.addAttribute("pageNum", cri.getPageNum());
-//		rttr.addAttribute("amount", cri.getAmount());
-//		rttr.addAttribute("type", cri.getType());
-//		rttr.addAttribute("keyword", cri.getKeyword());
 		
 		// 2. UriComponentsBuilder로 생성된 URL을 이용하여 리다이렉트를 처리. 
 		return "redirect:/sjboard/list" + cri.getListLink();

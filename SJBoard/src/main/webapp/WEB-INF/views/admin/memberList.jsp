@@ -87,7 +87,6 @@
 											<button id="updateBtn" type="button" onclick="remove(this)">강제 탈퇴</button>
 										</div>
 									</form> 
-									<!-- 스크립트 잠깐 위로 이동 -->
 									<script>
 									
 									// 회원 권한 변경 시 

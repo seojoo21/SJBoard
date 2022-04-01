@@ -19,7 +19,7 @@ public class ChartServiceImpl implements ChartService {
 	@Setter(onMethod_= {@Autowired})
 	private ChartMapper mapper;
 	
-	// JSON 구현 형태 
+//	 JSON 구현 형태 
 //	{
 //	    "cols": [
 //	        {"type":"string", "label":"등록일"}

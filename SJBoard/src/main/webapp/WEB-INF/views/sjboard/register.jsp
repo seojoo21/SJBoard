@@ -53,7 +53,7 @@
 										</div>
                                         
                                         <div style="margin-top: 10px;">
-                                        <button type="button" id="submitBtn" class="btn btn-primary" >게시물 등록</button>
+                                        <button type="submit" id="submitBtn" class="btn btn-primary" >게시물 등록</button>
                                         <button type="reset" class="btn btn-warning">초기화</button>
                                         </div>
                                  </form>
@@ -76,22 +76,7 @@
 <script type="text/javascript">
         
 $(document).ready(function(e){
-	
-	//게시물 등록 버튼 클릭 시 
-	$("#submitBtn").on("click", function(){
-		if($("#title").val() == "" ) {
-			alert("제목을 입력해주세요.")
-			$("#title").focus();
-			return false;
-		}
-		if($("#summernote").val() == "" ) {
-			alert("내용을 입력해주세요.")
-			$("#summernote").focus();
-			return false;
-		}
-		$("#newContent").submit();
-	});
-	
+		
 	// summernote 
 	$("#summernote").summernote({
 		height: 0,

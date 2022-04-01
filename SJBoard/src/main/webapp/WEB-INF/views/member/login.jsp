@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="checkbox">
                                     <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">로그인 상태 유지 
+                                        <input type="checkbox" name="remember-me">로그인 상태 유지 
                                     </label>
                                 </div>
                                 <div>

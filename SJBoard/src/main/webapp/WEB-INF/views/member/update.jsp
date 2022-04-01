@@ -57,7 +57,12 @@
 	                            </div>
 	                            <div class="form-group">
 	                            	<label>사용자 권한</label>
-	                                	<input class="form-control" value='<c:out value="${profile.authList[0] }"/>' readonly="readonly">
+	                                	<c:if test='${profile.authList[0].auth == "ROLE_ADMIN" }'>
+	                            			<input class="form-control" name='authList' value='관리자' readonly="readonly">
+	                            		</c:if>
+	                            		<c:if test='${profile.authList[0].auth == "ROLE_MEMBER" }'>
+	                            			<input class="form-control" name='authList' value='일반회원' readonly="readonly">
+	                            		</c:if>
 	                            </div> 
                        		</form>  
                        		

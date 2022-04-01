@@ -76,13 +76,7 @@
                                         
                                        <div class="form-group">
                                             <label>내용</label>
-                                            <div class="summernote" style="background-color: white; border: 1px solid #ccc; border-radius: 4px;">${board.content}</div>
-                                            <script>
-	                                        	// summernote
-	                                        	$('.summernote').summernote(
-	                                        		airMode: true
-	                                        	});
-                                            </script>
+                                            <div class="form-control" style="background-color: white; border: 1px solid #ccc; border-radius: 4px;">${board.content}</div>
                                         </div>
                                         
                                         <div class='bigPictureWrapper'>
@@ -657,53 +651,5 @@ $(".bigPictureWrapper").on("click", function(e){
 });
 
 </script>
-
-<!-- 댓글 처리 자바스크립트 동작 테스트 코드  -->
-<!-- <script type="text/javascript">
-
-/* console.log("TEST");
-
-var bnoValue = '<c:out value="${board.bno }"/>'; */
-
-/* //for replyService add test */
-/* replyService.add({reply:"JS TEST", replyer:"tester", bno:bnoValue},
-		function(result){
-			alert("result :" + result);
-}); */
-
-//for replyService getList test
-/* replyService.getList({bno:bnoValue, page:1}, function(list){
-	for(var i=0, len = list.length||0; i<len; i++) {
-		console.log(list[i]);
-	}
-}); */
-
-//for replyService remove test
-/* replyService.remove(2, function(count) {
-
-   console.log(count);
-
-   if (count === "success") {
-     alert("REMOVED");
-   }
- }, function(err) {
-   alert('ERROR...');
- }); */
- 
-//for replyService update test
-/* replyService.update({
-	rno : 85,
-	bno : bnoValue,
-	reply : "수정"
-	}, function(result){
-		alert('수정완료');
-}); */
-
-//for replyService get test
-/* replyService.get(10, function(data) {
-	console.log(data);
-}); */
-
-</script> -->
 
  <%@include file="../includes/footer.jsp" %>

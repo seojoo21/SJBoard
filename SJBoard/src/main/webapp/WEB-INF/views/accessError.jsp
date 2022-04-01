@@ -8,10 +8,16 @@
 	<title>Home</title>
 </head>
 <body>
-<h1>
-	접근 오류 
-</h1>
+ <!-- Begin Page Content -->
+                <div class="container-fluid">
 
-<P>  접근 오류 </P>
+                    <!-- 404 Error Text -->
+                    <div class="text-center">
+                        <div class="error mx-auto" data-text="404">404</div>
+                        <p class="lead text-gray-800 mb-5">Page Not Found</p>
+                        <a href="/">Back to Home</a>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
 </body>
 </html>
