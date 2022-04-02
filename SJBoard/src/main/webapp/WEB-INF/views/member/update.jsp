@@ -49,7 +49,7 @@
 	                            </div>
 	                            <div class="form-group">
 	                            	<label>사용자 가입일 </label>
-	                                	<input class="form-control" name='regdate' value='<fmt:formatDate pattern="yyyy/MM/dd" value="${profile.regdate}"/>' readonly="readonly">
+	                                	<input class="form-control" value='<fmt:formatDate pattern="yyyy/MM/dd" value="${profile.regdate}"/>' readonly="readonly">
 	                            </div>
 	                            <div class="form-group">
 	                            	<label>최근 사용자 정보 수정일 </label>
@@ -57,11 +57,11 @@
 	                            </div>
 	                            <div class="form-group">
 	                            	<label>사용자 권한</label>
-	                                	<c:if test='${profile.authList[0].auth == "ROLE_ADMIN" }'>
-	                            			<input class="form-control" name='authList' value='관리자' readonly="readonly">
+		                            	<c:if test='${profile.authList[0].auth == "ROLE_ADMIN" }'>
+	                            			<input class="form-control" value='관리자' readonly="readonly">
 	                            		</c:if>
 	                            		<c:if test='${profile.authList[0].auth == "ROLE_MEMBER" }'>
-	                            			<input class="form-control" name='authList' value='일반회원' readonly="readonly">
+	                            			<input class="form-control" value='일반회원' readonly="readonly">
 	                            		</c:if>
 	                            </div> 
                        		</form>  
@@ -69,7 +69,7 @@
                        		<sec:authentication property="principal" var="pinfo"/>
                        		<sec:authorize access="isAuthenticated()">
                             	<c:if test="${pinfo.username eq profile.userid }">
-                                    <button type="submit" data-oper="update" class="btn btn-success">회원 정보 수정</button>
+                                    <button type="button" data-oper="update" class="btn btn-success">회원 정보 수정</button>
                                     <button type="submit" data-oper="delete" class="btn btn-danger">회원 탈퇴</button>
                             </c:if>
                             </sec:authorize>  		
@@ -160,7 +160,7 @@ $(document).ready(function(){
 		$("#myModal").modal("show");
 	}
 	
-	var operForm = $("form");
+	var operForm = $("#operForm");
 	
 	$("button").on("click",function(e){
 		e.preventDefault();

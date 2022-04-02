@@ -41,7 +41,7 @@ public class FileCheckTask {
 	}
 	
 	// 매일 새벽 2시 서버 내 파일 삭제를 위한 checkFiles() 메서드를 실행한다. 
-	@Scheduled(cron = "0 10 1 * * *") 
+	@Scheduled(cron = "0 30 1 * * *") 
 	public void checkFiles() throws Exception{
 		log.warn("파일 체크 작업 진행 ");
 		log.warn("날짜:" + new Date());
@@ -68,20 +68,17 @@ public class FileCheckTask {
 		fileListPaths.forEach(p -> log.warn("path:" + p));
 		
 		File targetDir = Paths.get(uploadFolder, getFolderYesterDay()).toFile();
+		log.warn("target Directory : " + targetDir.toString());
 		
 		// 데이터베이스에 있는 파일들의 준비가 끝나면 실제 폴더에 있는 파일들의 목록에서 데이터베이스에는 없는 파일들을 찾아서 목록으로 준비한다. 
 		File[] removeFiles = targetDir.listFiles(file -> fileListPaths.contains(file.toPath()) == false);
 		
 		log.warn("-----------------------------------");
 		
-		
 		// 최종적으로는 삭제 대상이 되는 파일들을 삭제한다. 
 		for (File file : removeFiles) {
 			log.warn(file.getAbsolutePath());
 			file.delete();
 		}
-		
 	}
-	
-
 }

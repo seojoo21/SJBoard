@@ -199,6 +199,7 @@ $("#mailCheckBtn").on("click", function(){
 		success: function(data) {
 			checkBox.attr("disabled", false);
 			checkBox.attr("id", "mailCheck_true");
+			alert("입력하신 이메일 주소로 인증 번호가 전송되었습니다. 메일함을 확인해주세요.");
 		}
 	});
 }); 

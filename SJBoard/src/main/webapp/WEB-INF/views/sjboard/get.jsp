@@ -76,7 +76,7 @@
                                         
                                        <div class="form-group">
                                             <label>내용</label>
-                                            <div class="form-control" style="background-color: white; border: 1px solid #ccc; border-radius: 4px;">${board.content}</div>
+                                            <div class="" style="background-color: white; border: 1px solid #ccc; border-radius: 4px;">${board.content}</div>
                                         </div>
                                         
                                         <div class='bigPictureWrapper'>
