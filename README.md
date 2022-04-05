@@ -38,7 +38,7 @@
 
 - [SJBoard 개발일지](https://seojoo21.tistory.com/category/개인프로젝트/%5B스프링%5D%20SJBoard%20개발일지)
 - [에러 해결 모음](https://seojoo21.tistory.com/category/에러%20해결%20모음)
-- [SJBoard 프로젝트롤 통한 스프링 공부](https://seojoo21.tistory.com/category/Spring%20공부/SJBoard%20프로젝트를%20통한%20스프링%20공부)
+- [SJBoard 프로젝트롤 통한 스프링 공부](https://seojoo21.tistory.com/category/Spring/SJBoard%20프로젝트를%20통한%20스프링%20공부)
 
 > #### 1주차 (2022/03/02~2022/03/06) 
 - 03/02 개발 환경 설정 및 프로젝트 기획 및 설계. 게시판 DB 생성 및 게시판 영속 및 비즈니스 계층 CRUD 작업  
